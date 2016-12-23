@@ -5,7 +5,7 @@ Description: The plugin was created to make the user easy to add the footnote as
 Just click on the Reference Footnotes icon, then a form will be apeared which has a textarea where you can enter the reference of the content and then click the Insert button into the editor content with the proeper syntax: [ref]Texts entering or <a hreft="#">link</a>[ref].
 
 This is also supported in Khmer language, and can add other langauge by using po files.
-Version: 1.0.0
+Version: 1.0.1
 Author: ODC: Huy Eng
 License: CC0
 Text Domain: referent-notes-editor-button
