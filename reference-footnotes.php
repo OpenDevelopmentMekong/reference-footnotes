@@ -5,7 +5,7 @@ Description: The plugin was created to make the user easy to add the footnote as
 Just click on the Reference Footnotes icon, then a form will be apeared which has a textarea where you can enter the reference of the content and then click the Insert button into the editor content with the proeper syntax: [ref]Texts entering or <a hreft="#">link</a>[ref].
 
 This is also supported in Khmer language, and can add other langauge by using po files.
-Version: 1.0.0
+Version: 1.0.1
 Author: ODC: Huy Eng
 License: CC0
 Text Domain: referent-notes-editor-button
@@ -36,7 +36,7 @@ if(!class_exists('reference_footnotes_TinyMCE')) {
 		function init() {
 			add_filter('mce_external_plugins', array($this, 'add_buttons_reference_footnotes'));
 			add_filter('mce_buttons', array($this, 'register_buttons_reference_footnotes'));
-			 load_plugin_textdomain( 'reference-footnotes', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
+			 load_plugin_textdomain( 'reference-footnotes', false, dirname( plugin_basename( __FILE__ ) ) . '/i18n' );
 			if((current_user_can('edit_posts') || current_user_can('edit_pages')) && 'true' == get_user_option('rich_editing')) {
 				wp_enqueue_script( array ( 'wpdialogs' ) );
 			 	wp_enqueue_style('wp-jquery-ui-dialog');
@@ -90,8 +90,7 @@ if(!class_exists('reference_footnotes_TinyMCE')) {
                 if ( empty( $this->reference_footnotes[$id] ) )
                         return $content;
                 $content .= '<div class="reference-footnote">';
-				//$content .= '<h4 id="reference-notes">'. __( 'References', 'reference-footnotes' ).'</h4>';
-				$content .= '<h4 id="reference-notes">'. __( 'References', 'odm' ).'</h4>';
+				$content .= '<h4 id="reference-notes">'. __( 'References', 'reference-footnotes' ).'</h4>';
 				$content .= '<ul id="reference-list">';
                 foreach ( array_filter( $this->reference_footnotes[$id] ) as $num => $note ) {
                     $content .= '<li id="ref-' . $id . '-' . $num . '">
@@ -143,7 +142,7 @@ if(!class_exists('reference_footnotes_TinyMCE')) {
 			  if ( $id ):
 					$id = 'id="' . esc_attr($id) . '" ';
 				endif;
-				
+
 			  return '<div ' . $id . 'class="wp-caption ' . esc_attr($align) . '" style="width: ' . (10 + (int) $width) . 'px">'
 			  . do_shortcode( $content ) . '<p class="wp-caption-text">' . $caption . '</p></div>';
 		}

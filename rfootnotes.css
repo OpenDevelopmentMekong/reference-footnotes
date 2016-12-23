@@ -2,13 +2,13 @@
     margin: 15px 0;
 }
 #reference-list{
-    font-size: 15px;
     margin-left: 0;
 }
 #content #reference-list li {
     line-height: 22px;
     margin-bottom: 1em;
     word-wrap: break-word;
+  	font-size: 13px;
 }
 #reference-list a{
     word-wrap: break-word;
