@@ -5,7 +5,7 @@ Description: The plugin was created to make the user easy to add the footnote as
 Just click on the Reference Footnotes icon, then a form will be apeared which has a textarea where you can enter the reference of the content and then click the Insert button into the editor content with the proeper syntax: [ref]Texts entering or <a hreft="#">link</a>[ref].
 
 This is also supported in Khmer language, and can add other langauge by using po files.
-Version: 1.0.1
+Version: 1.0.2
 Author: ODC: Huy Eng
 License: CC0
 Text Domain: referent-notes-editor-button
@@ -43,9 +43,10 @@ if(!class_exists('reference_footnotes_TinyMCE')) {
 			    add_action('admin_footer', array($this, 'builder_reference_footnotes'));
 			}
 		}
+		
 		public function add_script(){
-	       wp_enqueue_style("reference_footnotes_css", plugins_url("rfootnotes.css", __FILE__ ));
-        }
+      wp_enqueue_style("reference_footnotes_css", plugins_url("rfootnotes.css", __FILE__ ));
+    }
 
 
 		function add_buttons_reference_footnotes($plugins) {
@@ -62,8 +63,7 @@ if(!class_exists('reference_footnotes_TinyMCE')) {
 
 		}
 
-		function builder_reference_footnotes() {
-			?>
+		function builder_reference_footnotes() { ?>
     			<div style="display:none;">
     			<form id="reference-footnotes" tabindex="-1">
     				<div style="margin: 1em">
@@ -85,66 +85,66 @@ if(!class_exists('reference_footnotes_TinyMCE')) {
 		} //end function
 
         function reference_footnotes( $content ) {
-                global $id;
+          global $id;
 
-                if ( empty( $this->reference_footnotes[$id] ) )
-                        return $content;
-                $content .= '<div class="reference-footnote">';
-				$content .= '<h4 id="reference-notes">'. __( 'References', 'reference-footnotes' ).'</h4>';
-				$content .= '<ul id="reference-list">';
-                foreach ( array_filter( $this->reference_footnotes[$id] ) as $num => $note ) {
-                    $content .= '<li id="ref-' . $id . '-' . $num . '">
-                                <a href="#return-note-' . $id . '-' . $num . '">' .sprintf( _n( '%s', '%s', $num, 'tereference-footnotesst' ), $num ).'</a>. '. do_shortcode( $note ) . '</li>';
+          if ( empty( $this->reference_footnotes[$id] ) )
+                  return $content;
+          $content .= '<div class="reference-footnote">';
+					$content .= '<h4 id="reference-notes">'. __( 'References', 'reference-footnotes' ).'</h4>';
+					$content .= '<ul id="reference-list">';
+          foreach ( array_filter( $this->reference_footnotes[$id] ) as $num => $note ) {
+              $content .= '<li id="ref-' . $id . '-' . $num . '">
+                          <a href="#return-note-' . $id . '-' . $num . '">' .sprintf( _n( '%s', '%s', $num, 'tereference-footnotesst' ), $num ).'</a>. '. do_shortcode( $note ) . '</li>';
 
-                }
+          }
 
-                $content .= '</ol></div>';
-                return $content;
+          $content .= '</ol></div>';
+          return $content;
         }
 
 		public function shortcode( $atts, $content = null ) {
-                global $id;
-                if ( null === $content )
-                        return;
-                if ( ! isset( $this->reference_footnotes[$id] ) )
-                        $this->reference_footnotes[$id] = array( 0 => false );
-                $this->reference_footnotes[$id][] = $content;
-                $note = count( $this->reference_footnotes[$id] ) - 1;
-                return '<sup><a class="reference_footnote" title="' . esc_attr( wp_strip_all_tags( $content ) ) . '" id="return-note-' . $id . '-' . $note . '" href="#ref-' . $id . '-' . $note . '">' . $note . '</a></sup>';
-        }
+      global $id;
+      if ( null === $content )
+              return;
+      if ( ! isset( $this->reference_footnotes[$id] ) )
+              $this->reference_footnotes[$id] = array( 0 => false );
+      $this->reference_footnotes[$id][] = $content;
+      $note = count( $this->reference_footnotes[$id] ) - 1;
+      return '<sup><a class="reference_footnote" title="' . esc_attr( wp_strip_all_tags( $content ) ) . '" id="return-note-' . $id . '-' . $note . '" href="#ref-' . $id . '-' . $note . '">' . $note . '</a></sup>';
+    }
 
 		public function the_content( $content ) {
-             if ( ! $GLOBALS['multipage'] )
-                    return $this->reference_footnotes( $content );
-             return $content;
+     	if ( isset($GLOBALS['multipage']) && ! $GLOBALS['multipage'] )
+        return $this->reference_footnotes( $content );
+     	return $content;
     }
 
 		public function nested_img_caption_shortcode($empty, $attr, $content = null) {
-			  extract(
-			    shortcode_atts(
-			      array(
-			      'id'    => '',
-			      'align' => 'alignnone',
-			      'width' => '',
-			      'caption' => ''
-			      ),
-			      $attr,
-			      'caption'
-			    )
-			  );
+		  extract(
+		    shortcode_atts(
+		      array(
+		      'id'    => '',
+		      'align' => 'alignnone',
+		      'width' => '',
+		      'caption' => ''
+		      ),
+		      $attr,
+		      'caption'
+		    )
+		  );
 
-			  $caption = do_shortcode($caption);
+		  $caption = do_shortcode($caption);
 
-			  if ( 1 > (int) $width || empty($caption) ):
-			    return $content;
-				endif;
+		  if ( 1 > (int) $width || empty($caption) ):
+		    return $content;
+			endif;
 
-			  if ( $id ):
-					$id = 'id="' . esc_attr($id) . '" ';
-				endif;
+		  if ( $id ):
+				$id = 'id="' . esc_attr($id) . '" ';
+			endif;
 
-			  return '<div ' . $id . 'class="wp-caption ' . esc_attr($align) . '" style="width: ' . (10 + (int) $width) . 'px">'
-			  . do_shortcode( $content ) . '<p class="wp-caption-text">' . $caption . '</p></div>';
+		  return '<div ' . $id . 'class="wp-caption ' . esc_attr($align) . '" style="width: ' . (10 + (int) $width) . 'px">'
+		  . do_shortcode( $content ) . '<p class="wp-caption-text">' . $caption . '</p></div>';
 		}
 
 	}
