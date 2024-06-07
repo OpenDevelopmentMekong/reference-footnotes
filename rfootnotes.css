@@ -1,16 +1,31 @@
-#reference-notes{
-    margin: 15px 0;
+#reference-notes {
+  margin: 15px 0;
 }
-#reference-list{
-    margin-left: 0;
+
+.hide-footnote {
+  display: none;
 }
+
+.arrow-right::before {
+  content: '\25BA  ';
+}
+
+.arrow-down::before {
+  content: '\25BC  ';
+}
+
+#reference-list {
+  margin-left: 0;
+}
+
 #content #reference-list li {
-    line-height: 22px;
-    margin-bottom: 1em;
-    word-wrap: break-word;
-  	font-size: 13px;
+  line-height: 22px;
+  margin-bottom: 1em;
+  word-wrap: break-word;
+  font-size: 13px;
 }
-#reference-list a{
-    word-wrap: break-word;
-    font-weight: normal;
+
+#reference-list a {
+  word-wrap: break-word;
+  font-weight: normal;
 }
